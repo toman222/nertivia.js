@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "standardx ./src/**/*.{ts,tsx}",
+    "test": "tsc --noEmit true && npm run lint"
   },
   "author": "Supertiger",
   "license": "ISC",
@@ -13,6 +14,11 @@
     "@types/node": "^13.13.4",
     "@types/node-fetch": "^2.5.7",
     "@types/socket.io-client": "^1.4.32",
+    "@types/socketio-wildcard": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint-plugin-jsdoc": "^30.0.3",
+    "standardx": "^5.0.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
@@ -32,5 +38,46 @@
   "bugs": {
     "url": "https://github.com/supertiger1234/nertivia.js/issues"
   },
-  "homepage": "https://github.com/supertiger1234/nertivia.js#readme"
+  "homepage": "https://github.com/supertiger1234/nertivia.js#readme",
+  "standardx": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint/eslint-plugin"
+    ]
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "args": "all",
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_"
+        }
+      ],
+      "camelcase": "off",
+      "jsdoc/check-examples": 1,
+      "jsdoc/check-indentation": 1,
+      "jsdoc/check-syntax": 1,
+      "jsdoc/no-types": 1,
+      "jsdoc/no-undefined-types": 1,
+      "jsdoc/require-description": 1,
+      "jsdoc/require-jsdoc": [
+        1,
+        {
+          "publicOnly": true
+        }
+      ],
+      "jsdoc/require-description-complete-sentence": 1,
+      "jsdoc/require-param-type": 0,
+      "jsdoc/require-returns-type": 0
+    },
+    "extends": [
+      "plugin:jsdoc/recommended"
+    ],
+    "plugins": [
+      "jsdoc"
+    ]
+  }
 }
