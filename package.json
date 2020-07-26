@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "lint": "standardx ./src/**/*.{ts,tsx}",
+    "start": "rm -r -f dist/ && tsc",
+    "lint": "standardx ./src/**/*.{ts,tsx} -v",
     "test": "tsc --noEmit true && npm run lint"
   },
   "author": "Supertiger",

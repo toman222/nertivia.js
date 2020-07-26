@@ -1,6 +1,6 @@
 import Guild from './Guild'
-import { Client } from '.'
-import IRolePermissions from './Interfaces/IRolePermissions'
+import Client from './Client'
+import IRolePermissions from './Interfaces/RolePermissions'
 import { RolePermissions } from './constants/RolePermissions'
 export default class Role {
   guild: Guild;

@@ -1,5 +1,5 @@
-import { Client } from '.'
-import { User } from './User'
+import Client from './Client'
+import User from './User'
 import Collection from '@discordjs/collection'
 
 export default class Users {

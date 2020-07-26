@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import { END_POINTS } from '../constants'
-import { Client } from '..'
-import { User } from '../User'
+import Client from '../Client'
+import User from '../User'
 import Channel from '../Channel'
 import Message from '../Message'
 import SendOptions from '../Interfaces/SendOptions'
@@ -90,7 +90,7 @@ createDM (recipient: User): Promise<Channel> {
 
 getExistingDM (user: User) {
   return this.client.channels.cache.find(channel =>
-channel.recipient?.id === user.id
+    channel.recipient?.id === user.id
   )
 }
 

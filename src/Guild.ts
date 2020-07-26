@@ -1,4 +1,4 @@
-import { Client } from '.'
+import Client from './Client'
 import Collection from '@discordjs/collection'
 import Channel from './Channel'
 import ServerMember from './ServerMember'

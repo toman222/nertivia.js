@@ -1,7 +1,7 @@
-import { Client } from '.'
+import Client from './Client'
 import Guild from './Guild'
 import Channel from './Channel'
-import { User } from './User'
+import User from './User'
 
 export default class DataManager {
   client: Client

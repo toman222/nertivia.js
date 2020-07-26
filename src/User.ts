@@ -1,9 +1,9 @@
-import { Client } from '.'
+import Client from './Client'
 import Presence from './Presence'
 import { END_POINTS } from './constants'
 import SendOptions from './Interfaces/SendOptions'
 
-export class User {
+export default class User {
   username: string
   tag: string
   avatar: string

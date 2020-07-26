@@ -1,4 +1,4 @@
-import { Client } from '.'
+import Client from './Client'
 import Channel from './Channel'
 import Collection from '@discordjs/collection'
 export default class Channels {

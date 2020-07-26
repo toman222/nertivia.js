@@ -1,4 +1,4 @@
-import { User } from './User'
+import User from './User'
 import { PresenceStatus, PresenceStatusData } from './Interfaces/Status'
 
 export default class ClientUser extends User {

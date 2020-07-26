@@ -1,6 +1,6 @@
-import { Client } from '.'
+import Client from './Client'
 import Guild from './Guild'
-import { User } from './User'
+import User from './User'
 import SendOptions from './Interfaces/SendOptions'
 
 export default class Channel {

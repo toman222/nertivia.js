@@ -1,5 +1,5 @@
 import Guild from './Guild'
-import { Client } from '.'
+import Client from './Client'
 import CreateRole from './Interfaces/CreateRole'
 import Collection from '@discordjs/collection'
 import Role from './Role'

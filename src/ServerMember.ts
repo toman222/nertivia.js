@@ -1,5 +1,5 @@
-import { User } from './User'
-import { Client } from '.'
+import User from './User'
+import Client from './Client'
 import Guild from './Guild'
 
 export default class ServerMember {

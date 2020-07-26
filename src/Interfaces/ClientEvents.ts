@@ -5,7 +5,7 @@ import Guild from '../Guild'
 import MessageButton from './MessageButton'
 import Role from '../Role'
 
-export interface IClientEvents {
+export default interface IClientEvents {
   ready?: () => void
   message: (message: Message) => void
   presenceUpdate: (presence: Presence) => void

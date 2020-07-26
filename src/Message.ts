@@ -1,8 +1,7 @@
-
-import { Client } from '.'
+import Client from './Client'
 import Channel from './Channel'
 import Guild from './Guild'
-import { User } from './User'
+import User from './User'
 import ServerMember from './ServerMember'
 import MessageMentions from './MessageMentions'
 import SendOptions from './Interfaces/SendOptions'
