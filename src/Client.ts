@@ -74,22 +74,22 @@ export default class Client {
 
           // get server users
           for (let index = 0; index < data.serverMembers.length; index++) {
-            addServerMember(data.serverMembers[index], this)
+            this.addServerMember(data.serverMembers[index])
           }
 
           // get presences
           for (let index = 0; index < data.memberStatusArr.length; index++) {
-            setMemberPresence(data.memberStatusArr[index], this)
+            this.setMemberPresence(data.memberStatusArr[index])
           }
 
           // get activity status
           for (let index = 0; index < data.customStatusArr.length; index++) {
-            setMemberActivityStatus(data.customStatusArr[index], this)
+            this.setMemberActivityStatus(data.customStatusArr[index])
           }
 
           // get roles
           for (let index = 0; index < data.serverRoles.length; index++) {
-            addServerRoles(data.serverRoles[index], this)
+            this.addServerRoles(data.serverRoles[index])
           }
 
           const readyCB = this.listeners.get(clientEventsNames.ready)
@@ -109,7 +109,7 @@ export default class Client {
         this.socket.on('*', (res: any) => {
           const [event, data]: [any, any] = res.data
           if (Object.keys(events).includes(event)) {
-            const func: [string, any, any?] = (events as any)[event](data, this)
+            const func: [string, any, any?] = events[event](data, this)
             if (!func) { return }
             const cb = this.listeners.get(func[0])
             if (!cb) return
@@ -129,42 +129,44 @@ export default class Client {
   off<T extends keyof IClientEvents> (type: T) {
     this.listeners.delete(type)
   }
-}
 
-function addServerRoles (role: any, client: Client) {
-  const guild = client.guilds.cache.get(role.server_id)
-  if (guild !== undefined) {
-    guild.roles.cache.set(role.id, new Role(role, guild))
+  addServerRoles (role: any) {
+    const guild = this.guilds.cache.get(role.server_id)
+    if (guild !== undefined) {
+      guild.roles.cache.set(role.id, new Role(role, guild))
+    }
+  }
+
+  addServerMember (member: any) {
+    const guild = this.guilds.cache.get(member.server_id)
+    if (guild !== undefined) {
+      guild._addMember(member)
+    }
+  }
+
+  setMemberPresence ([id, status]: any) {
+    const user = this.users.cache.get(id)
+    if (user !== undefined) {
+      user.presence.status = PresenceStatusData[parseInt(status)] as PresenceStatus
+    }
+  }
+
+  setMemberActivityStatus ([id, activity]: any) {
+    const user = this.users.cache.get(id)
+    if (user !== undefined) {
+      user.presence.activity = activity
+    }
+  }
+
+  buttonDone (data: any) {
+    const client = this
+    return function (message?: any) {
+      return client.fetch.messageButtonCallback(data.channelID, data.messageID, data.id, data.clickedByID, message)
+    }
   }
 }
 
-function addServerMember (member: any, client: Client) {
-  const guild = client.guilds.cache.get(member.server_id)
-  if (guild !== undefined) {
-    guild._addMember(member)
-  }
-}
-
-function setMemberPresence ([id, status]: any, client: Client) {
-  const user = client.users.cache.get(id)
-  if (user !== undefined) {
-    user.presence.status = PresenceStatusData[parseInt(status)] as PresenceStatus
-  }
-}
-function setMemberActivityStatus ([id, activity]: any, client: Client) {
-  const user = client.users.cache.get(id)
-  if (user !== undefined) {
-    user.presence.activity = activity
-  }
-}
-
-function buttonDone (data: any, client: Client) {
-  return function (message?: any) {
-    return client.fetch.messageButtonCallback(data.channelID, data.messageID, data.id, data.clickedByID, message)
-  }
-}
-
-const events = {
+const events: {[key: string]: Function} = {
   receiveMessage: (data: any, client: Client) => {
     return ['message', new Message(data.message, client)]
   },
@@ -210,7 +212,7 @@ const events = {
       }
     }
   },
-  'server:joined': (server: any, client: Client) => {
+  'server:joined': (server: {[key: string]: string}, client: Client) => {
     const guild = new Guild(server, client)
     client.guilds.cache.set(server.server_id, guild)
     for (let index = 0; index < server.channels.length; index++) {
@@ -219,8 +221,8 @@ const events = {
     }
     return ['N/A']
   },
-  message_button_clicked: (data: any, _client: Client) => {
-    return ['messageButtonClicked', data, buttonDone]
+  message_button_clicked: (data: any, client: Client) => {
+    return ['messageButtonClicked', data, client.buttonDone.bind(client)]
   },
   'server:update_role': (data: any, client: Client) => {
     const guild = client.guilds.cache.get(data.server_id)
@@ -243,13 +245,13 @@ const events = {
   'server:members': (data: any, client: Client) => {
     const { serverMembers, memberPresences, programActivityArr } = data
     for (let index = 0; index < serverMembers.length; index++) {
-      addServerMember(serverMembers[index], client)
+      client.addServerMember(serverMembers[index])
     }
     for (let index = 0; index < memberPresences.length; index++) {
-      setMemberPresence(data.memberPresences[index], client)
+      client.setMemberPresence(data.memberPresences[index])
     }
     for (let index = 0; index < programActivityArr.length; index++) {
-      setMemberActivityStatus(programActivityArr[index], client)
+      client.setMemberActivityStatus(programActivityArr[index])
     }
 
     // guild create is used here since members is a seperate event
@@ -261,7 +263,7 @@ const events = {
   },
   'server:roles': (data: any, client: Client) => {
     for (let i = 0; i < data.roles.length; i++) {
-      addServerRoles(data.roles[i], client)
+      client.addServerRoles(data.roles[i])
     }
     return ['N/A']
   }
