@@ -1,12 +1,15 @@
 import Guild from './Guild'
 import Client from './Client'
-import CreateRole from './Interfaces/CreateRole'
-import Collection from '@discordjs/collection'
 import Role from './Role'
+
+import CreateRole from './Interfaces/CreateRole'
+
+import Collection from '@discordjs/collection'
+
 export default class RolesManager {
-  guild: Guild;
+  guild: Guild
   client: Client
-  cache: Collection<string, Role>;
+  cache: Collection<string, Role>
   constructor (_guild: Guild) {
     this.guild = _guild
     this.client = this.guild.client

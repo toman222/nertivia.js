@@ -3,8 +3,8 @@ import User from './User'
 import Collection from '@discordjs/collection'
 
 export default class Users {
-  client: Client;
-  cache: Collection<string, User>;
+  client: Client
+  cache: Collection<string, User>
   constructor (client: Client) {
     this.client = client
     this.cache = new Collection()

@@ -1,18 +1,20 @@
 import Client from './Client'
 import Presence from './Presence'
 import { END_POINTS } from './constants'
+
 import SendOptions from './Interfaces/SendOptions'
 
 export default class User {
   username: string
   tag: string
-  avatar: string
+  avatar?: string
   id: string
   discriminator: string
   client: Client
   presence: Presence
-  avatarURL: string;
-  bot: boolean;
+  avatarURL: string
+  bot: boolean
+
   constructor (user: any, client: Client) {
     this.username = user.username
     this.tag = `${user.username}:${user.tag}`

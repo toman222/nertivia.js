@@ -4,16 +4,19 @@ import Guild from './Guild'
 import User from './User'
 import ServerMember from './ServerMember'
 import MessageMentions from './MessageMentions'
+
 import SendOptions from './Interfaces/SendOptions'
+
 export default class Message {
-  id: string;
-  content?: string;
-  author: User;
-  channel: Channel | undefined;
-  guild: Guild | undefined;
-  client: Client;
-  member: ServerMember | undefined;
-  mentions: MessageMentions;
+  id: string
+  content?: string
+  author: User
+  channel: Channel | undefined
+  guild: Guild | undefined
+  client: Client
+  member: ServerMember | undefined
+  mentions: MessageMentions
+
   constructor (message: any, client: Client) {
     this.id = message.messageID
     this.content = message.message

@@ -1,16 +1,20 @@
 import Guild from './Guild'
 import Client from './Client'
+
+import { IServerRoleAuth } from './Interfaces/AuthenticationData'
 import IRolePermissions from './Interfaces/RolePermissions'
 import { RolePermissions } from './constants/RolePermissions'
+
 export default class Role {
-  guild: Guild;
-  client: Client;
-  color: string;
-  order: number;
-  id: string;
-  permissions: number;
-  name: string;
-  constructor (role: any, guild: Guild) {
+  guild: Guild
+  client: Client
+  color: string
+  order: number
+  id: string
+  permissions: number
+  name: string
+
+  constructor (role: IServerRoleAuth, guild: Guild) {
     this.client = guild.client
     this.guild = guild
 

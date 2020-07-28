@@ -1,14 +1,14 @@
 import IUser from './User'
 
 export default interface IAuthenticationData {
-  user: IUser & User
-  serverMembers: ServerMember[]
-  dms: Channel[];
+  user: IUser & IUserAuth
+  serverMembers: IServerMemberAuth[]
+  dms: IChannelAuth[]
   memberStatusArr: [[string, string]]
   customStatusArr: [[string, string]],
-  serverRoles: ServerRoles[]
+  serverRoles: IServerRoleAuth[]
 }
-interface ServerRoles {
+export interface IServerRoleAuth {
   name: string,
   permissions: number,
   deletable: boolean,
@@ -17,28 +17,26 @@ interface ServerRoles {
   order: number,
   color: string
 }
-
-interface User {
+export interface IUserAuth {
   uniqueID: string
-  servers: Servers[]
+  servers: IServerAuth[]
 }
-interface Servers {
+export interface IServerAuth {
   name: string
   creator: string
   server_id: string
   avatar?: string
   banner?: string
-  channels: Channel[]
+  channels: IChannelAuth[]
 }
-interface Channel {
+export interface IChannelAuth {
   name: string
   channelID: string
   server_id?: string
-  recipients?: (IUser & User)[]
+  recipients?: (IUser & IUserAuth)[]
 }
-
-interface ServerMember {
+export interface IServerMemberAuth {
   type: string
-  member: IUser & User
+  member: IUser & IUserAuth
   server_id: string
 }

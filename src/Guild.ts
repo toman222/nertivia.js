@@ -1,19 +1,22 @@
 import Client from './Client'
-import Collection from '@discordjs/collection'
 import Channel from './Channel'
 import ServerMember from './ServerMember'
 import { END_POINTS } from './constants'
 import RolesManager from './RolesManager'
 
+import { IServerAuth, IServerMemberAuth } from './Interfaces/AuthenticationData'
+
+import Collection from '@discordjs/collection'
+
 export default class Guild {
-  id: string;
-  client: Client;
-  name: string;
-  channels: Collection<string, Channel>;
-  members: Collection<string, ServerMember>;
-  icon: string;
-  roles: RolesManager;
-  constructor (server: any, client: Client) {
+  id: string
+  client: Client
+  name: string
+  channels: Collection<string, Channel>
+  members: Collection<string, ServerMember>
+  icon?: string
+  roles: RolesManager
+  constructor (server: IServerAuth, client: Client) {
     this.id = server.server_id
     this.name = server.name
     this.icon = server.avatar
@@ -27,7 +30,7 @@ export default class Guild {
     return END_POINTS.NERTIVIA_CDN + this.icon
   }
 
-  _addMember (data: any) {
+  _addMember (data: IServerMemberAuth) {
     const user = this.client.dataManager.newUser(data.member)
     if (!user) return
     const sm = new ServerMember(this.client, this, { ...data, user })
