@@ -1,15 +1,15 @@
 import { JsonInput } from 'jsonhtmlfyer';
-export default interface SendOptions {
+export interface SendOptions {
     /**
      * Add buttons to your message 👉.
      */
-    buttons?: Button[];
+    buttons?: IButton[];
     /**
      * Add a cool lookin' HTML Embed 🌟.
      */
     htmlEmbed?: JsonInput;
 }
-interface Button {
+export interface IButton {
     /**
      * Id is used to target a button when an event is fired.
      */
@@ -19,4 +19,3 @@ interface Button {
      */
     name: string;
 }
-export {};

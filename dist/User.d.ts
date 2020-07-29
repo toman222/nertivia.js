@@ -1,6 +1,6 @@
 import Client from './Client';
 import Presence from './Presence';
-import SendOptions from './Interfaces/SendOptions';
+import { SendOptions } from './Interfaces/SendOptions';
 export default class User {
     username: string;
     tag: string;

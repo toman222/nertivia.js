@@ -1,10 +1,10 @@
+import { IMessageButton } from './MessageButton';
 import Message from '../Message';
 import Presence from '../Presence';
 import ServerMember from '../ServerMember';
 import Guild from '../Guild';
-import MessageButton from './MessageButton';
 import Role from '../Role';
-export default interface IClientEvents {
+export interface IClientEvents {
     ready?: () => void;
     message: (message: Message) => void;
     presenceUpdate: (presence: Presence) => void;
@@ -12,7 +12,7 @@ export default interface IClientEvents {
     guildMemberRemove: (serverMember: ServerMember) => void;
     guildCreate: (guild: Guild) => void;
     error: (error: Error) => void;
-    messageButtonClicked: (Button: MessageButton, done: (message?: string) => Promise<any>) => void;
+    messageButtonClicked: (Button: IMessageButton, done: (message?: string) => Promise<any>) => void;
     roleUpdate: (role: Role) => void;
     roleCreate: (role: Role) => void;
     guildDelete: (guild: Guild) => void;

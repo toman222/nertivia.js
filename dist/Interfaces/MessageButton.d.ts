@@ -1,4 +1,4 @@
-export default interface IMessageButton {
+export interface IMessageButton {
     id: string;
     channelID: string;
     messageID: string;

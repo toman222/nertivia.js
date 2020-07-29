@@ -1,6 +1,6 @@
 import Client from './Client';
-import { PresenceStatus } from './Interfaces/Status';
 import User from './User';
+import { PresenceStatus } from './Interfaces/Status';
 export default class Presence {
     client: Client;
     status: PresenceStatus;

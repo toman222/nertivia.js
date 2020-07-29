@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_fetch_1 = __importDefault(require("node-fetch"));
-const constants_1 = require("../constants");
-const User_1 = __importDefault(require("../User"));
-const Message_1 = __importDefault(require("../Message"));
 const HTMLEmbedBuilder_1 = __importDefault(require("../HTMLEmbedBuilder"));
+const Message_1 = __importDefault(require("../Message"));
+const User_1 = __importDefault(require("../User"));
+const constants_1 = require("../constants");
 class Fetch {
     constructor(client) {
         this.client = client;

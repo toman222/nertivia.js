@@ -97,8 +97,8 @@ class Client {
                 this.socket.on('*', (res) => {
                     var _a, _b;
                     const [event, data] = res.data;
-                    console.debug(`Received event ${event}`);
-                    console.debug(`With data ${data}`);
+                    console.debug(`Received event:\n${event}`);
+                    console.debug(`With data:\n${JSON.stringify(data)}`);
                     if (Object.keys(events).includes(event)) {
                         const func = events[event](data, this);
                         if (func === undefined) {

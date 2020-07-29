@@ -6,7 +6,7 @@ import Fetch from './Utils/fetch';
 import DataManager from './DataManager';
 import ClientUser from './ClientUser';
 import { IServerRoleAuth, IServerMemberAuth } from './Interfaces/AuthenticationData';
-import IClientEvents from './Interfaces/ClientEvents';
+import { IClientEvents } from './Interfaces/ClientEvents';
 export default class Client {
     token: string | null;
     user: ClientUser | undefined;
