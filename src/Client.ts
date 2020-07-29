@@ -17,27 +17,15 @@ import wildcard from 'socketio-wildcard'
 const socketIOWildcard = wildcard(io.Manager)
 
 export default class Client {
-  token: string | null
-  user: ClientUser | undefined
-  listeners: Map<keyof IClientEvents | string, Function | undefined>
-  socket: SocketIOClient.Socket
-  users: Users
-  channels: Channels
-  guilds: Guilds
-  fetch: Fetch
-  dataManager: DataManager
-  constructor () {
-    this.token = null
-    this.user = undefined
-    this.listeners = new Map()
-    this.socket = io('https://nertivia.supertiger.tk', { autoConnect: true })
-    // this.socket = io('http://localhost/', { autoConnect: false })
-    this.users = new Users(this)
-    this.channels = new Channels(this)
-    this.guilds = new Guilds(this)
-    this.fetch = new Fetch(this)
-    this.dataManager = new DataManager(this)
-  }
+  token: string | null = null
+  user?: ClientUser = undefined
+  listeners: Map<keyof IClientEvents | string, Function | undefined> = new Map()
+  socket: SocketIOClient.Socket = io('https://nertivia.supertiger.tk', { autoConnect: true })
+  users: Users = new Users(this)
+  channels: Channels = new Channels(this)
+  guilds: Guilds = new Guilds(this)
+  fetch: Fetch = new Fetch(this)
+  dataManager: DataManager = new DataManager(this)
 
   login (token: string) {
     return new Promise((resolve, reject) => {
