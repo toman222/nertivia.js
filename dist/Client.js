@@ -160,20 +160,30 @@ const events = {
     [ClientEvents_1.clientEventsNames.messageUpdate]: (data, client) => {
         return ['messageUpdate', new _1.Message(data.message, client)];
     },
-    [ClientEvents_1.clientEventsNames.presenceUpdate]: (data, client) => {
-        var _a;
-        const presence = (_a = client.users.cache.get(data.uniqueID)) === null || _a === void 0 ? void 0 : _a.presence;
-        if (presence !== undefined) {
-            presence.status = Status_1.PresenceStatusData[parseInt(data.status)];
-            return ['presenceUpdate', presence];
-        }
-        return undefined;
-    },
     'member:custom_status_change': (data, client) => {
         var _a;
         const presence = (_a = client.users.cache.get(data.uniqueID)) === null || _a === void 0 ? void 0 : _a.presence;
         if (presence !== undefined) {
             presence.activity = data.custom_status;
+            return ['presenceUpdate', presence];
+        }
+        return undefined;
+    },
+    'programActivity:changed': (data, client) => {
+        var _a, _b;
+        // TODO: This is not correct; probably have to change Presence class
+        const presence = (_a = client.users.cache.get(data.unique_id)) === null || _a === void 0 ? void 0 : _a.presence;
+        if (presence !== undefined) {
+            presence.activity = (_b = data.status) !== null && _b !== void 0 ? _b : null;
+            return ['presenceUpdate', presence];
+        }
+        return undefined;
+    },
+    [ClientEvents_1.clientEventsNames.presenceUpdate]: (data, client) => {
+        var _a;
+        const presence = (_a = client.users.cache.get(data.uniqueID)) === null || _a === void 0 ? void 0 : _a.presence;
+        if (presence !== undefined) {
+            presence.status = Status_1.PresenceStatusData[parseInt(data.status)];
             return ['presenceUpdate', presence];
         }
         return undefined;

@@ -162,18 +162,27 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
   [clientEventsNames.messageUpdate]: (data: {message: IMessage}, client: Client) => {
     return ['messageUpdate', new Message(data.message, client)]
   },
-  [clientEventsNames.presenceUpdate]: (data: { uniqueID: string, status: string }, client: Client) => {
-    const presence = client.users.cache.get(data.uniqueID)?.presence
-    if (presence !== undefined) {
-      presence.status = PresenceStatusData[parseInt(data.status)] as PresenceStatus
-      return ['presenceUpdate', presence]
-    }
-    return undefined
-  },
   'member:custom_status_change': (data: { uniqueID: string, custom_status: string }, client: Client) => {
     const presence = client.users.cache.get(data.uniqueID)?.presence
     if (presence !== undefined) {
       presence.activity = data.custom_status
+      return ['presenceUpdate', presence]
+    }
+    return undefined
+  },
+  'programActivity:changed': (data: { unique_id: string, status?: string, name?: string}, client: Client) => {
+    // TODO: This is not correct; probably have to change Presence class
+    const presence = client.users.cache.get(data.unique_id)?.presence
+    if (presence !== undefined) {
+      presence.activity = data.status ?? null
+      return ['presenceUpdate', presence]
+    }
+    return undefined
+  },
+  [clientEventsNames.presenceUpdate]: (data: { uniqueID: string, status: string }, client: Client) => {
+    const presence = client.users.cache.get(data.uniqueID)?.presence
+    if (presence !== undefined) {
+      presence.status = PresenceStatusData[parseInt(data.status)] as PresenceStatus
       return ['presenceUpdate', presence]
     }
     return undefined
