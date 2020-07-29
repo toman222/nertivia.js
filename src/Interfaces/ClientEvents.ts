@@ -7,7 +7,7 @@ export interface IClientEvents {
   channelDelete: (channel: Channel) => void
   error: (error: Error) => void
   guildCreate: (guild: Guild) => void
-  guildDelete: (guild: Guild) => void
+  guildRemove: (guild: Guild) => void
   guildMemberAdd: (serverMember: ServerMember) => void
   guildMemberRemove: (serverMember: ServerMember) => void
   message: (message: Message) => void
@@ -23,7 +23,7 @@ export enum clientEventsNames {
   channelDelete = 'server:remove_channel',
   error = 'error',
   guildCreate = 'server:joined',
-  guildDelete = 'server:leave',
+  guildRemove = 'server:leave',
   guildMemberAdd = 'server:member_add',
   guildMemberRemove = 'server:member_remove',
   message = 'receiveMessage',

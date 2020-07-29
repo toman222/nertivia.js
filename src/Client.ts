@@ -185,8 +185,7 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
     return undefined
   },
   [clientEventsNames.channelCreate]: (data: { channelAuth: IChannelAuth }, client: Client) => {
-    const channel = new Channel(data.channelAuth, client)
-    return ['channel', channel]
+    return ['channel', new Channel(data.channelAuth, client)]
   },
   [clientEventsNames.channelDelete]: (data: { channelID: string, server_id?: string}, client: Client) => {
     const channel = client.channels.cache.get(data.channelID)
@@ -270,7 +269,7 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
     guild.roles.cache.set(data.id, role)
     return ['roleCreate', role]
   },
-  [clientEventsNames.guildDelete]: (data: any, client: Client) => {
+  [clientEventsNames.guildRemove]: (data: any, client: Client) => {
     const guild = client.guilds.cache.get(data.server_id)
     if (guild) {
       client.guilds.cache.delete(data.server_id)
