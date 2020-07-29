@@ -114,4 +114,8 @@ export default class Fetch {
   updateRole (opts: any, role: Role, guild: Guild) {
     return this.postJSON('patch', `${END_POINTS.SERVERS_PATH}${guild.id}/roles/${role.id}`, opts)
   }
+
+  createInvite (guild: Guild): Promise<{invite_code: string}> {
+    return this.postJSON('post', `${END_POINTS.SERVERS_PATH}${guild.id}/invite`)
+  }
 }
