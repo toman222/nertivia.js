@@ -86,5 +86,8 @@ class Fetch {
     updateRole(opts, role, guild) {
         return this.postJSON('patch', `${constants_1.END_POINTS.SERVERS_PATH}${guild.id}/roles/${role.id}`, opts);
     }
+    createInvite(guild) {
+        return this.postJSON('post', `${constants_1.END_POINTS.SERVERS_PATH}${guild.id}/invite`);
+    }
 }
 exports.default = Fetch;

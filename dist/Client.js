@@ -21,7 +21,6 @@ class Client {
         this.user = undefined;
         this.listeners = new Map();
         this.socket = socket_io_client_1.default('https://nertivia.supertiger.tk', { autoConnect: true });
-        // this.socket = io('http://localhost/', { autoConnect: false })
         this.users = new Users_1.default(this);
         this.channels = new Channels_1.default(this);
         this.guilds = new Guilds_1.default(this);
@@ -175,8 +174,7 @@ const events = {
         return undefined;
     },
     [ClientEvents_1.clientEventsNames.channelCreate]: (data, client) => {
-        const channel = new _1.Channel(data.channelAuth, client);
-        return ['channel', channel];
+        return ['channel', new _1.Channel(data.channelAuth, client)];
     },
     [ClientEvents_1.clientEventsNames.channelDelete]: (data, client) => {
         const channel = client.channels.cache.get(data.channelID);
@@ -261,7 +259,7 @@ const events = {
         guild.roles.cache.set(data.id, role);
         return ['roleCreate', role];
     },
-    [ClientEvents_1.clientEventsNames.guildDelete]: (data, client) => {
+    [ClientEvents_1.clientEventsNames.guildRemove]: (data, client) => {
         const guild = client.guilds.cache.get(data.server_id);
         if (guild) {
             client.guilds.cache.delete(data.server_id);

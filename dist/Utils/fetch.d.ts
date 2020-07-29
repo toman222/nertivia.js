@@ -24,4 +24,7 @@ export default class Fetch {
         };
     }, guild: Guild): Promise<any>;
     updateRole(opts: any, role: Role, guild: Guild): Promise<any>;
+    createInvite(guild: Guild): Promise<{
+        invite_code: string;
+    }>;
 }

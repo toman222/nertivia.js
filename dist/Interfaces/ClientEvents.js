@@ -6,7 +6,7 @@ var clientEventsNames;
     clientEventsNames["channelDelete"] = "server:remove_channel";
     clientEventsNames["error"] = "error";
     clientEventsNames["guildCreate"] = "server:joined";
-    clientEventsNames["guildDelete"] = "server:leave";
+    clientEventsNames["guildRemove"] = "server:leave";
     clientEventsNames["guildMemberAdd"] = "server:member_add";
     clientEventsNames["guildMemberRemove"] = "server:member_remove";
     clientEventsNames["message"] = "receiveMessage";

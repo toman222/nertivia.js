@@ -9,7 +9,7 @@ import { IServerRoleAuth, IServerMemberAuth } from './Interfaces/AuthenticationD
 import { IClientEvents } from './Interfaces/ClientEvents';
 export default class Client {
     token: string | null;
-    user: ClientUser | undefined;
+    user?: ClientUser;
     listeners: Map<keyof IClientEvents | string, Function | undefined>;
     socket: SocketIOClient.Socket;
     users: Users;
@@ -17,7 +17,6 @@ export default class Client {
     guilds: Guilds;
     fetch: Fetch;
     dataManager: DataManager;
-    constructor();
     login(token: string): Promise<unknown>;
     on<T extends keyof IClientEvents>(type: T, callback: IClientEvents[T]): void;
     off<T extends keyof IClientEvents>(type: T): void;
