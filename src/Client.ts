@@ -105,12 +105,12 @@ export default class Client {
         })
         this.socket.on('*', (res: any) => {
           const [event, data]: [string, any] = res.data
+          console.debug(`Received event ${event}`)
+          console.debug(`With data ${data}`)
           if (Object.keys(events).includes(event)) {
             const func = events[event](data, this)
             if (func === undefined) { return }
-            const cb = this.listeners.get(func[0])
-            if (!cb) { return }
-            cb(func[1], func[2]?.call(data, this))
+            return this.listeners.get(func[0])?.call(func[1], func[2]?.call(data, this))
           }
         })
       }
