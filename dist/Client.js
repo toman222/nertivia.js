@@ -102,8 +102,10 @@ class Client {
                         return (_a = this.listeners.get(func[0])) === null || _a === void 0 ? void 0 : _a.call(func[1], (_b = func[2]) === null || _b === void 0 ? void 0 : _b.call(data, this));
                     }
                     else {
-                        console.warn(`Received unexpected event:\n${event}`);
-                        console.warn(`With data:\n${JSON.stringify(data)}`);
+                        if (!['success'].includes(event)) {
+                            console.warn(`Received unexpected event:\n${event}`);
+                            console.warn(`With data:\n${JSON.stringify(data)}`);
+                        }
                     }
                 });
             };

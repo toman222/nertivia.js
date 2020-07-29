@@ -98,8 +98,10 @@ export default class Client {
             if (func === undefined) { return }
             return this.listeners.get(func[0])?.call(func[1], func[2]?.call(data, this))
           } else {
-            console.warn(`Received unexpected event:\n${event}`)
-            console.warn(`With data:\n${JSON.stringify(data)}`)
+            if (!['success'].includes(event)) {
+              console.warn(`Received unexpected event:\n${event}`)
+              console.warn(`With data:\n${JSON.stringify(data)}`)
+            }
           }
         })
       }
