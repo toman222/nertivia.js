@@ -98,6 +98,7 @@ class Client {
                     var _a, _b;
                     const [event, data] = res.data;
                     console.debug(`Received event ${event}`);
+                    console.debug(`With data ${data}`);
                     if (Object.keys(events).includes(event)) {
                         const func = events[event](data, this);
                         if (func === undefined) {
