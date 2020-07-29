@@ -14,5 +14,5 @@ export default class Guild {
     roles: RolesManager;
     constructor(server: IServerAuth, client: Client);
     get iconURL(): string;
-    _addMember(data: IServerMemberAuth): ServerMember | undefined;
+    addMember(data: IServerMemberAuth): ServerMember;
 }

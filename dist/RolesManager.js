@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Role_1 = __importDefault(require("./Role"));
 const collection_1 = __importDefault(require("@discordjs/collection"));
 class RolesManager {
-    constructor(_guild) {
-        this.guild = _guild;
+    constructor(guild) {
+        this.guild = guild;
         this.client = this.guild.client;
         this.cache = new collection_1.default();
     }

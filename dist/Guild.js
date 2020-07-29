@@ -20,13 +20,11 @@ class Guild {
     get iconURL() {
         return constants_1.END_POINTS.NERTIVIA_CDN + this.icon;
     }
-    _addMember(data) {
+    addMember(data) {
         const user = this.client.dataManager.newUser(data.member);
-        if (!user)
-            return;
-        const sm = new ServerMember_1.default(this.client, this, Object.assign(Object.assign({}, data), { user }));
-        this.members.set(user.id, sm);
-        return sm;
+        const member = new ServerMember_1.default(this.client, this, Object.assign(Object.assign({}, data), { user }));
+        this.members.set(user.id, member);
+        return member;
     }
 }
 exports.default = Guild;

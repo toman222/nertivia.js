@@ -1,14 +1,14 @@
+import { Channel, Guild, Message, Role, ServerMember } from '.'
+
 import Users from './Users'
 import Channels from './Channels'
 import Guilds from './Guilds'
-import Guild from './Guild'
-import Message from './Message'
-import Fetch from './Utils/fetch'
 import DataManager from './DataManager'
 import ClientUser from './ClientUser'
-import Role from './Role'
 
-import { IAuthenticationData, IServerRoleAuth, IServerMemberAuth, IServerAuth } from './Interfaces/AuthenticationData'
+import Fetch from './Utils/fetch'
+
+import { IAuthenticationData, IServerRoleAuth, IServerMemberAuth, IServerAuth, IChannelAuth } from './Interfaces/AuthenticationData'
 import { PresenceStatusData, PresenceStatus } from './Interfaces/Status'
 import { IClientEvents, clientEventsNames } from './Interfaces/ClientEvents'
 
@@ -105,12 +105,13 @@ export default class Client {
         })
         this.socket.on('*', (res: any) => {
           const [event, data]: [string, any] = res.data
-          console.debug(`Received event:\n${event}`)
-          console.debug(`With data:\n${JSON.stringify(data)}`)
           if (Object.keys(events).includes(event)) {
             const func = events[event](data, this)
             if (func === undefined) { return }
             return this.listeners.get(func[0])?.call(func[1], func[2]?.call(data, this))
+          } else {
+            console.warn(`Received unexpected event:\n${event}`)
+            console.warn(`With data:\n${JSON.stringify(data)}`)
           }
         })
       }
@@ -137,7 +138,7 @@ export default class Client {
   addServerMember (member: IServerMemberAuth) {
     const guild = this.guilds.cache.get(member.server_id)
     if (guild !== undefined) {
-      guild._addMember(member)
+      guild.addMember(member)
     }
   }
 
@@ -164,10 +165,10 @@ export default class Client {
 }
 
 const events: {[key: string]: (data: any, client: Client)=>[string, any?, Function?]|undefined} = {
-  receiveMessage: (data: {message: any}, client: Client) => {
+  [clientEventsNames.message]: (data: {message: any}, client: Client) => {
     return ['message', new Message(data.message, client)]
   },
-  userStatusChange: (data: { uniqueID: string, status: string }, client: Client) => {
+  [clientEventsNames.presenceUpdate]: (data: { uniqueID: string, status: string }, client: Client) => {
     const presence = client.users.cache.get(data.uniqueID)?.presence
     if (presence) {
       presence.status = PresenceStatusData[parseInt(data.status)] as PresenceStatus
@@ -183,20 +184,26 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
     }
     return undefined
   },
-  'server:member_add': (data: { serverMember: IServerMemberAuth, custom_status?: string, presence: string }, client: Client) => {
-    const clientPresence = client.users.cache.get(data.serverMember.member.uniqueID)
-    if (clientPresence) {
-      clientPresence.presence.status = PresenceStatusData[parseInt(data.presence)] as PresenceStatus
-      clientPresence.presence.activity = data.custom_status ?? null
-      return ['guildMemberAdd', client.guilds.cache.get(data.serverMember.server_id)?._addMember(data.serverMember)]
+  [clientEventsNames.channelCreate]: (data: { channelAuth: IChannelAuth }, client: Client) => {
+    const channel = new Channel(data.channelAuth, client)
+    return ['channel', channel]
+  },
+  [clientEventsNames.guildMemberAdd]: (data: { serverMember: IServerMemberAuth, custom_status?: string, presence: string }, client: Client) => {
+    const user = client.users.cache.get(data.serverMember.member.uniqueID)
+    if (user !== undefined) {
+      user.presence.status = PresenceStatusData[parseInt(data.presence)] as PresenceStatus
+      user.presence.activity = data.custom_status ?? null
+      return ['guildMemberAdd', client.guilds.cache.get(data.serverMember.server_id)?.addMember(data.serverMember)]
     }
     return undefined
   },
-  'server:member_remove': (data: { uniqueID: string, server_id: string }, client: Client) => {
+  [clientEventsNames.guildMemberRemove]: (data: { uniqueID: string, server_id: string }, client: Client) => {
     const guild = client.guilds.cache.get(data.server_id)
     const member = guild?.members.get(data.uniqueID)
-    const memberClone = Object.assign(Object.create(Object.getPrototypeOf(member)), member)
-    if (guild) guild.members.delete(data.uniqueID)
+    const memberClone: ServerMember = Object.assign(Object.create(Object.getPrototypeOf(member)), member)
+    if (guild) {
+      guild.members.delete(data.uniqueID)
+    }
     return ['guildMemberRemove', memberClone]
   },
   'server:update_server': (data: IServerAuth, client: Client) => {
@@ -209,35 +216,51 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
     }
     return undefined
   },
-  'server:joined': (server: IServerAuth, client: Client) => {
+  [clientEventsNames.guildCreate]: (server: IServerAuth, client: Client) => {
     const guild = new Guild(server, client)
     client.guilds.cache.set(server.server_id, guild)
     for (let index = 0; index < server.channels.length; index++) {
       const channel = server.channels[index]
       client.dataManager.newChannel(channel, guild)
+      return ['guildCreate', guild]
     }
-    return ['N/A']
+    return undefined
   },
-  message_button_clicked: (data: any, client: Client) => {
+  [clientEventsNames.messageButtonClicked]: (data: any, client: Client) => {
     return ['messageButtonClicked', data, client.buttonDone.bind(client)]
   },
-  'server:update_role': (data: IServerRoleAuth, client: Client) => {
+  [clientEventsNames.roleUpdate]: (data: IServerRoleAuth, client: Client) => {
     const guild = client.guilds.cache.get(data.server_id)
-    if (!guild) return
+    if (!guild) {
+      return undefined
+    }
     const role = guild.roles.cache.get(data.id)
-    if (!role) return
+    if (!role) {
+      return undefined
+    }
     role.permissions = data.permissions || role.permissions
     role.color = data.color || role.color
     role.name = data.name || role.name
     return ['roleUpdate', role]
   },
-  'server:create_role': (data: IServerRoleAuth, client: Client) => {
+  [clientEventsNames.roleCreate]: (data: IServerRoleAuth, client: Client) => {
     const guild = client.guilds.cache.get(data.server_id)
-    if (!guild) return
-    if (guild.roles.cache.has(data.id)) return
+    if (!guild) {
+      return undefined
+    }
+    if (guild.roles.cache.has(data.id)) {
+      return undefined
+    }
     const role = new Role(data, guild)
     guild.roles.cache.set(data.id, role)
     return ['roleCreate', role]
+  },
+  [clientEventsNames.guildDelete]: (data: any, client: Client) => {
+    const guild = client.guilds.cache.get(data.server_id)
+    if (guild) {
+      client.guilds.cache.delete(data.server_id)
+    }
+    return ['guildDelete', guild]
   },
   'server:members': (data: {
       serverMembers: IServerMemberAuth[],

@@ -1,4 +1,5 @@
 import { IMessageButton } from './MessageButton'
+import { IChannelAuth } from './AuthenticationData'
 
 import Message from '../Message'
 import Presence from '../Presence'
@@ -13,6 +14,7 @@ export interface IClientEvents {
   guildMemberAdd: (serverMember: ServerMember) => void
   guildMemberRemove: (serverMember: ServerMember) => void
   guildCreate: (guild: Guild) => void
+  channelCreate: (channel: IChannelAuth) => void
   error: (error: Error) => void
   messageButtonClicked: (Button: IMessageButton, done: (message?: string) => Promise<any>) => void
   roleUpdate: (role: Role) => void
@@ -24,12 +26,13 @@ export enum clientEventsNames {
   ready = 'ready',
   message = 'receiveMessage',
   presenceUpdate = 'userStatusChange',
+  channelCreate = 'server:add_channel',
   guildMemberAdd = 'server:member_add',
   guildMemberRemove = 'server:member_remove',
   guildCreate = 'server:joined',
+  guildDelete = 'server:leave',
   messageButtonClicked = 'message_button_clicked',
   error = 'error',
   roleUpdate = 'server:update_role',
-  roleCreate = 'server:create_role',
-  guildDelete = 'server:leave'
+  roleCreate = 'server:create_role'
 }

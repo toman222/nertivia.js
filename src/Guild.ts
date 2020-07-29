@@ -30,11 +30,10 @@ export default class Guild {
     return END_POINTS.NERTIVIA_CDN + this.icon
   }
 
-  _addMember (data: IServerMemberAuth) {
+  addMember (data: IServerMemberAuth) {
     const user = this.client.dataManager.newUser(data.member)
-    if (!user) return
-    const sm = new ServerMember(this.client, this, { ...data, user })
-    this.members.set(user.id, sm)
-    return sm
+    const member = new ServerMember(this.client, this, { ...data, user })
+    this.members.set(user.id, member)
+    return member
   }
 }

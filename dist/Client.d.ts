@@ -2,9 +2,9 @@
 import Users from './Users';
 import Channels from './Channels';
 import Guilds from './Guilds';
-import Fetch from './Utils/fetch';
 import DataManager from './DataManager';
 import ClientUser from './ClientUser';
+import Fetch from './Utils/fetch';
 import { IServerRoleAuth, IServerMemberAuth } from './Interfaces/AuthenticationData';
 import { IClientEvents } from './Interfaces/ClientEvents';
 export default class Client {
