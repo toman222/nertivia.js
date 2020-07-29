@@ -26,5 +26,8 @@ class Guild {
         this.members.set(user.id, member);
         return member;
     }
+    createInvite() {
+        return this.client.fetch.createInvite(this);
+    }
 }
 exports.default = Guild;

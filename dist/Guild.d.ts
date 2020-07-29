@@ -15,4 +15,7 @@ export default class Guild {
     constructor(server: IServerAuth, client: Client);
     get iconURL(): string;
     addMember(data: IServerMemberAuth): ServerMember;
+    createInvite(): Promise<{
+        invite_code: string;
+    }>;
 }
