@@ -12,6 +12,6 @@ export default class Channels {
   }
 
   fetch (_id: string, _cache?: boolean) {
-    console.log('channels.fetch not implimented yet.')
+    console.log('channels.fetch not implemented yet.')
   }
 }

@@ -16,3 +16,5 @@ var Role_1 = require("./Role");
 exports.Role = Role_1.default;
 var ServerMember_1 = require("./ServerMember");
 exports.ServerMember = ServerMember_1.default;
+var MessageMentions_1 = require("./MessageMentions");
+exports.MessageMention = MessageMentions_1.default;

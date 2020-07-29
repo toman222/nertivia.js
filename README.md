@@ -3,6 +3,7 @@ NodeJS library for Nertivia API
 
 ## Notice
 This library is in its early stages. A lot of features are missing. If you find any issues, make sure you post them in the issues page in GitHub.
+Also the examples aren't up-to-date
 
 ## Usage
 

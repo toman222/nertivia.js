@@ -6,3 +6,4 @@ export { default as Message } from './Message';
 export { default as Presence } from './Presence';
 export { default as Role } from './Role';
 export { default as ServerMember } from './ServerMember';
+export { default as MessageMention } from './MessageMentions';

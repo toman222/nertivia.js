@@ -11,6 +11,7 @@ import Fetch from './Utils/fetch'
 import { IAuthenticationData, IServerRoleAuth, IServerMemberAuth, IServerAuth, IChannelAuth } from './Interfaces/AuthenticationData'
 import { PresenceStatusData, PresenceStatus } from './Interfaces/Status'
 import { IClientEvents, clientEventsNames } from './Interfaces/ClientEvents'
+import { IMessage } from './Interfaces/Message'
 
 import io from 'socket.io-client'
 import wildcard from 'socketio-wildcard'
@@ -155,12 +156,15 @@ export default class Client {
 }
 
 const events: {[key: string]: (data: any, client: Client)=>[string, any?, Function?]|undefined} = {
-  [clientEventsNames.message]: (data: {message: any}, client: Client) => {
+  [clientEventsNames.message]: (data: {message: IMessage}, client: Client) => {
     return ['message', new Message(data.message, client)]
+  },
+  [clientEventsNames.messageUpdate]: (data: {message: IMessage}, client: Client) => {
+    return ['messageUpdate', new Message(data.message, client)]
   },
   [clientEventsNames.presenceUpdate]: (data: { uniqueID: string, status: string }, client: Client) => {
     const presence = client.users.cache.get(data.uniqueID)?.presence
-    if (presence) {
+    if (presence !== undefined) {
       presence.status = PresenceStatusData[parseInt(data.status)] as PresenceStatus
       return ['presenceUpdate', presence]
     }
@@ -168,7 +172,7 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
   },
   'member:custom_status_change': (data: { uniqueID: string, custom_status: string }, client: Client) => {
     const presence = client.users.cache.get(data.uniqueID)?.presence
-    if (presence) {
+    if (presence !== undefined) {
       presence.activity = data.custom_status
       return ['presenceUpdate', presence]
     }
@@ -177,7 +181,7 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
   [clientEventsNames.channelCreate]: (data: { channelAuth: IChannelAuth }, client: Client) => {
     return ['channel', new Channel(data.channelAuth, client)]
   },
-  [clientEventsNames.channelRemove]: (data: { channelID: string, server_id?: string}, client: Client) => {
+  [clientEventsNames.channelDelete]: (data: { channelID: string, server_id?: string}, client: Client) => {
     const channel = client.channels.cache.get(data.channelID)
     if (channel === undefined) {
       return undefined
@@ -190,7 +194,7 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
       }
     }
     client.channels.cache.delete(data.channelID)
-    return ['channelRemove', channel]
+    return ['channelDelete', channel]
   },
   [clientEventsNames.guildMemberAdd]: (data: { serverMember: IServerMemberAuth, custom_status?: string, presence: string }, client: Client) => {
     const user = client.users.cache.get(data.serverMember.member.uniqueID)
@@ -259,7 +263,7 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
     guild.roles.cache.set(data.id, role)
     return ['roleCreate', role]
   },
-  [clientEventsNames.guildRemove]: (data: any, client: Client) => {
+  [clientEventsNames.guildDelete]: (data: any, client: Client) => {
     const guild = client.guilds.cache.get(data.server_id)
     if (guild) {
       client.guilds.cache.delete(data.server_id)

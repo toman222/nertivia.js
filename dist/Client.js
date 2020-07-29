@@ -157,10 +157,13 @@ const events = {
     [ClientEvents_1.clientEventsNames.message]: (data, client) => {
         return ['message', new _1.Message(data.message, client)];
     },
+    [ClientEvents_1.clientEventsNames.messageUpdate]: (data, client) => {
+        return ['messageUpdate', new _1.Message(data.message, client)];
+    },
     [ClientEvents_1.clientEventsNames.presenceUpdate]: (data, client) => {
         var _a;
         const presence = (_a = client.users.cache.get(data.uniqueID)) === null || _a === void 0 ? void 0 : _a.presence;
-        if (presence) {
+        if (presence !== undefined) {
             presence.status = Status_1.PresenceStatusData[parseInt(data.status)];
             return ['presenceUpdate', presence];
         }
@@ -169,7 +172,7 @@ const events = {
     'member:custom_status_change': (data, client) => {
         var _a;
         const presence = (_a = client.users.cache.get(data.uniqueID)) === null || _a === void 0 ? void 0 : _a.presence;
-        if (presence) {
+        if (presence !== undefined) {
             presence.activity = data.custom_status;
             return ['presenceUpdate', presence];
         }
@@ -178,7 +181,7 @@ const events = {
     [ClientEvents_1.clientEventsNames.channelCreate]: (data, client) => {
         return ['channel', new _1.Channel(data.channelAuth, client)];
     },
-    [ClientEvents_1.clientEventsNames.channelRemove]: (data, client) => {
+    [ClientEvents_1.clientEventsNames.channelDelete]: (data, client) => {
         const channel = client.channels.cache.get(data.channelID);
         if (channel === undefined) {
             return undefined;
@@ -191,7 +194,7 @@ const events = {
             }
         }
         client.channels.cache.delete(data.channelID);
-        return ['channelRemove', channel];
+        return ['channelDelete', channel];
     },
     [ClientEvents_1.clientEventsNames.guildMemberAdd]: (data, client) => {
         var _a, _b;
@@ -261,7 +264,7 @@ const events = {
         guild.roles.cache.set(data.id, role);
         return ['roleCreate', role];
     },
-    [ClientEvents_1.clientEventsNames.guildRemove]: (data, client) => {
+    [ClientEvents_1.clientEventsNames.guildDelete]: (data, client) => {
         const guild = client.guilds.cache.get(data.server_id);
         if (guild) {
             client.guilds.cache.delete(data.server_id);

@@ -5,25 +5,26 @@ import User from './User'
 import ServerMember from './ServerMember'
 import MessageMentions from './MessageMentions'
 
+import { IMessage } from './Interfaces/Message'
 import { SendOptions } from './Interfaces/SendOptions'
 
 export default class Message {
   id: string
   content?: string
   author: User
-  channel: Channel | undefined
-  guild: Guild | undefined
+  channel?: Channel
+  guild?: Guild
   client: Client
-  member: ServerMember | undefined
+  member?: ServerMember
   mentions: MessageMentions
 
-  constructor (message: any, client: Client) {
+  constructor (message: IMessage, client: Client) {
     this.id = message.messageID
     this.content = message.message
-    this.author = client.users.cache.get(message.creator.uniqueID) as any
+    this.author = client.users.cache.get(message.creator.uniqueID) ?? (() => { throw new Error('Message has invalid author. ID: ' + message.creator.uniqueID) })()
     this.channel = client.channels.cache.get(message.channelID)
     this.guild = this.channel?.guild
-    this.member = this.guild?.members.get(message.creator.uniqueID) as any
+    this.member = this.guild?.members.get(message.creator.uniqueID)
     this.client = client
     this.mentions = new MessageMentions(this, this.client)
   }

@@ -10,7 +10,7 @@ class Users {
         this.cache = new collection_1.default();
     }
     fetch(_id, _cache) {
-        console.log('users.fetch not implimented yet.');
+        console.log('users.fetch not implemented yet.');
     }
 }
 exports.default = Users;

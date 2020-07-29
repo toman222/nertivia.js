@@ -10,7 +10,7 @@ class Guilds {
         this.cache = new collection_1.default();
     }
     fetch(_id, _cache) {
-        console.log('guilds.fetch not implimented yet.');
+        console.log('guilds.fetch not implemented yet.');
     }
 }
 exports.default = Guilds;

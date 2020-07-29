@@ -12,6 +12,6 @@ export default class Users {
   }
 
   fetch (_id: string, _cache?: boolean) {
-    console.log('users.fetch not implimented yet.')
+    console.log('users.fetch not implemented yet.')
   }
 }

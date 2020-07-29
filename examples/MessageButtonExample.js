@@ -19,7 +19,7 @@ client.on("messageButtonClicked", (button, done) => {
         done();
     }
     if (button.id === "unban") {
-        done("Action not implimented!")
+        done("Action not implemented!")
     }
 })
 

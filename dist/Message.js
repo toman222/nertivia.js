@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const MessageMentions_1 = __importDefault(require("./MessageMentions"));
 class Message {
     constructor(message, client) {
-        var _a, _b;
+        var _a, _b, _c;
         this.id = message.messageID;
         this.content = message.message;
-        this.author = client.users.cache.get(message.creator.uniqueID);
+        this.author = (_a = client.users.cache.get(message.creator.uniqueID)) !== null && _a !== void 0 ? _a : (() => { throw new Error('Message has invalid author. ID: ' + message.creator.uniqueID); })();
         this.channel = client.channels.cache.get(message.channelID);
-        this.guild = (_a = this.channel) === null || _a === void 0 ? void 0 : _a.guild;
-        this.member = (_b = this.guild) === null || _b === void 0 ? void 0 : _b.members.get(message.creator.uniqueID);
+        this.guild = (_b = this.channel) === null || _b === void 0 ? void 0 : _b.guild;
+        this.member = (_c = this.guild) === null || _c === void 0 ? void 0 : _c.members.get(message.creator.uniqueID);
         this.client = client;
         this.mentions = new MessageMentions_1.default(this, this.client);
     }

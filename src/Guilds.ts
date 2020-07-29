@@ -12,6 +12,6 @@ export default class Guilds {
   }
 
   fetch (_id: string, _cache?: boolean) {
-    console.log('guilds.fetch not implimented yet.')
+    console.log('guilds.fetch not implemented yet.')
   }
 }
