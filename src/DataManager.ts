@@ -4,7 +4,7 @@ import Channel from './Channel'
 import User from './User'
 
 import { IChannelAuth, IUserAuth } from './Interfaces/AuthenticationData'
-import IUser from './Interfaces/User'
+import { IUser } from './Interfaces/User'
 
 export default class DataManager {
   client: Client

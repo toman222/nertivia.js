@@ -5,7 +5,7 @@ import User from './User'
 import ServerMember from './ServerMember'
 import MessageMentions from './MessageMentions'
 
-import SendOptions from './Interfaces/SendOptions'
+import { SendOptions } from './Interfaces/SendOptions'
 
 export default class Message {
   id: string

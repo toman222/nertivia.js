@@ -1,4 +1,4 @@
-export default interface IRolePermissions {
+export interface IRolePermissions {
   ADMIN: boolean,
   SEND_MESSAGES: boolean,
   MANAGE_ROLES: boolean,

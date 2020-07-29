@@ -8,9 +8,9 @@ import DataManager from './DataManager'
 import ClientUser from './ClientUser'
 import Role from './Role'
 
-import IAuthenticationData, { IServerRoleAuth, IServerMemberAuth, IServerAuth } from './Interfaces/AuthenticationData'
+import { IAuthenticationData, IServerRoleAuth, IServerMemberAuth, IServerAuth } from './Interfaces/AuthenticationData'
 import { PresenceStatusData, PresenceStatus } from './Interfaces/Status'
-import IClientEvents, { clientEventsNames } from './Interfaces/ClientEvents'
+import { IClientEvents, clientEventsNames } from './Interfaces/ClientEvents'
 
 import io from 'socket.io-client'
 import wildcard from 'socketio-wildcard'

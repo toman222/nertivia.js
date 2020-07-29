@@ -1,15 +1,17 @@
 import fetch from 'node-fetch'
-import { END_POINTS } from '../constants'
-import Client from '../Client'
-import User from '../User'
-import Channel from '../Channel'
-import Message from '../Message'
-import SendOptions from '../Interfaces/SendOptions'
-import HTMLEmbedBuilder from '../HTMLEmbedBuilder'
 import { JsonInput } from 'jsonhtmlfyer'
-import CreateRole from '../Interfaces/CreateRole'
+
+import Channel from '../Channel'
+import Client from '../Client'
 import Guild from '../Guild'
+import HTMLEmbedBuilder from '../HTMLEmbedBuilder'
+import Message from '../Message'
 import Role from '../Role'
+import User from '../User'
+import { END_POINTS } from '../constants'
+
+import { CreateRoleOpts } from '../Interfaces/CreateRole'
+import { SendOptions } from '../Interfaces/SendOptions'
 
 export default class Fetch {
 client: Client
@@ -106,7 +108,7 @@ messageButtonCallback (channelID: string, messageID: string, buttonID: string, c
   return this.postJSON('patch', `${END_POINTS.CHANNELS_PATH}${channelID}/messages/${messageID}/button/${buttonID}`, { clickedByID, message })
 }
 
-createRole (opts: CreateRole, guild: Guild) {
+createRole (opts: CreateRoleOpts, guild: Guild) {
   return this.postJSON('post', `${END_POINTS.SERVERS_PATH}${guild.id}/roles`, opts.data)
 }
 

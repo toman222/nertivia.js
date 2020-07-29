@@ -1,6 +1,6 @@
-import IUser from './User'
+import { IUser } from './User'
 
-export default interface IAuthenticationData {
+export interface IAuthenticationData {
   user: IUser & IUserAuth
   serverMembers: IServerMemberAuth[]
   dms: IChannelAuth[]

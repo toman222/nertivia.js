@@ -1,4 +1,4 @@
-export default interface CreateOpts {
+export interface CreateRoleOpts {
   data: {
     name: string,
     color: string

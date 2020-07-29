@@ -2,7 +2,7 @@ import Client from './Client'
 import Guild from './Guild'
 import User from './User'
 
-import SendOptions from './Interfaces/SendOptions'
+import { SendOptions } from './Interfaces/SendOptions'
 import { IChannelAuth } from './Interfaces/AuthenticationData'
 
 export default class Channel {
