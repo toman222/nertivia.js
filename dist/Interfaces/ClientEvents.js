@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var clientEventsNames;
 (function (clientEventsNames) {
     clientEventsNames["channelCreate"] = "server:add_channel";
-    clientEventsNames["channelDelete"] = "server:remove_channel";
+    clientEventsNames["channelRemove"] = "server:remove_channel";
     clientEventsNames["error"] = "error";
     clientEventsNames["guildCreate"] = "server:joined";
     clientEventsNames["guildRemove"] = "server:leave";

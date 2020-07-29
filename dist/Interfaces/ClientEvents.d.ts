@@ -2,7 +2,7 @@ import { IMessageButton } from './MessageButton';
 import { Channel, Role, Guild, ServerMember, Message, Presence } from '..';
 export interface IClientEvents {
     channelCreate: (channel: Channel) => void;
-    channelDelete: (channel: Channel) => void;
+    channelRemove: (channel: Channel) => void;
     error: (error: Error) => void;
     guildCreate: (guild: Guild) => void;
     guildRemove: (guild: Guild) => void;
@@ -17,7 +17,7 @@ export interface IClientEvents {
 }
 export declare enum clientEventsNames {
     channelCreate = "server:add_channel",
-    channelDelete = "server:remove_channel",
+    channelRemove = "server:remove_channel",
     error = "error",
     guildCreate = "server:joined",
     guildRemove = "server:leave",
