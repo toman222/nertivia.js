@@ -178,6 +178,21 @@ const events = {
         const channel = new _1.Channel(data.channelAuth, client);
         return ['channel', channel];
     },
+    [ClientEvents_1.clientEventsNames.channelDelete]: (data, client) => {
+        const channel = client.channels.cache.get(data.channelID);
+        if (channel === undefined) {
+            return undefined;
+        }
+        client.channels.cache.delete(data.channelID);
+        if (data.server_id !== undefined) {
+            const guild = client.guilds.cache.get(data.server_id);
+            if (guild !== undefined && guild.channels.has(data.channelID)) {
+                guild.channels.delete(data.channelID);
+            }
+        }
+        client.channels.cache.delete(data.channelID);
+        return ['channelDelete', channel];
+    },
     [ClientEvents_1.clientEventsNames.guildMemberAdd]: (data, client) => {
         var _a, _b;
         const user = client.users.cache.get(data.serverMember.member.uniqueID);

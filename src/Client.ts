@@ -188,6 +188,21 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
     const channel = new Channel(data.channelAuth, client)
     return ['channel', channel]
   },
+  [clientEventsNames.channelDelete]: (data: { channelID: string, server_id?: string}, client: Client) => {
+    const channel = client.channels.cache.get(data.channelID)
+    if (channel === undefined) {
+      return undefined
+    }
+    client.channels.cache.delete(data.channelID)
+    if (data.server_id !== undefined) {
+      const guild = client.guilds.cache.get(data.server_id)
+      if (guild !== undefined && guild.channels.has(data.channelID)) {
+        guild.channels.delete(data.channelID)
+      }
+    }
+    client.channels.cache.delete(data.channelID)
+    return ['channelDelete', channel]
+  },
   [clientEventsNames.guildMemberAdd]: (data: { serverMember: IServerMemberAuth, custom_status?: string, presence: string }, client: Client) => {
     const user = client.users.cache.get(data.serverMember.member.uniqueID)
     if (user !== undefined) {

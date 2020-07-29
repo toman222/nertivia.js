@@ -1,30 +1,32 @@
 import { IMessageButton } from './MessageButton';
 import { Channel, Role, Guild, ServerMember, Message, Presence } from '..';
 export interface IClientEvents {
-    ready?: () => void;
-    message: (message: Message) => void;
-    presenceUpdate: (presence: Presence) => void;
+    channelCreate: (channel: Channel) => void;
+    channelDelete: (channel: Channel) => void;
+    error: (error: Error) => void;
+    guildCreate: (guild: Guild) => void;
+    guildDelete: (guild: Guild) => void;
     guildMemberAdd: (serverMember: ServerMember) => void;
     guildMemberRemove: (serverMember: ServerMember) => void;
-    guildCreate: (guild: Guild) => void;
-    channelCreate: (channel: Channel) => void;
-    error: (error: Error) => void;
+    message: (message: Message) => void;
     messageButtonClicked: (Button: IMessageButton, done: (message?: string) => Promise<any>) => void;
-    roleUpdate: (role: Role) => void;
+    presenceUpdate: (presence: Presence) => void;
+    ready: () => void;
     roleCreate: (role: Role) => void;
-    guildDelete: (guild: Guild) => void;
+    roleUpdate: (role: Role) => void;
 }
 export declare enum clientEventsNames {
-    ready = "ready",
-    message = "receiveMessage",
-    presenceUpdate = "userStatusChange",
     channelCreate = "server:add_channel",
-    guildMemberAdd = "server:member_add",
-    guildMemberRemove = "server:member_remove",
+    channelDelete = "server:remove_channel",
+    error = "error",
     guildCreate = "server:joined",
     guildDelete = "server:leave",
+    guildMemberAdd = "server:member_add",
+    guildMemberRemove = "server:member_remove",
+    message = "receiveMessage",
     messageButtonClicked = "message_button_clicked",
-    error = "error",
-    roleUpdate = "server:update_role",
-    roleCreate = "server:create_role"
+    presenceUpdate = "userStatusChange",
+    ready = "ready",
+    roleCreate = "server:create_role",
+    roleUpdate = "server:update_role"
 }
