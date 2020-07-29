@@ -1,11 +1,6 @@
 import { IMessageButton } from './MessageButton'
-import { IChannelAuth } from './AuthenticationData'
 
-import Message from '../Message'
-import Presence from '../Presence'
-import ServerMember from '../ServerMember'
-import Guild from '../Guild'
-import Role from '../Role'
+import { Channel, Role, Guild, ServerMember, Message, Presence } from '..'
 
 export interface IClientEvents {
   ready?: () => void
@@ -14,7 +9,7 @@ export interface IClientEvents {
   guildMemberAdd: (serverMember: ServerMember) => void
   guildMemberRemove: (serverMember: ServerMember) => void
   guildCreate: (guild: Guild) => void
-  channelCreate: (channel: IChannelAuth) => void
+  channelCreate: (channel: Channel) => void
   error: (error: Error) => void
   messageButtonClicked: (Button: IMessageButton, done: (message?: string) => Promise<any>) => void
   roleUpdate: (role: Role) => void
