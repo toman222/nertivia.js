@@ -104,9 +104,11 @@ export default class Client {
         this.socket.on('*', (res: any) => {
           const [event, data]: [string, any] = res.data
           if (Object.keys(events).includes(event)) {
-            const func = events[event](data, this)
-            if (func === undefined) { return }
-            return this.listeners.get(func[0])?.call(func[1], func[2]?.call(data, this))
+            const listenerData = events[event](data, this)
+            if (listenerData === undefined) { return }
+            const [eventName, dataObject, callback] = listenerData
+            const listener = this.listeners.get(eventName)
+            return listener?.call(listener, dataObject, callback?.call(callback, data, this))
           } else {
             if (!['success'].includes(event)) {
               console.warn(`Received unexpected event:\n${event}`)
