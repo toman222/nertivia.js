@@ -139,8 +139,8 @@ const events: {[key: string]: (data: any, client: Client)=>[string, any?, Functi
   [clientEventsNames.message]: (data: {message: IMessage}, client: Client) => {
     return ['message', new Message(data.message, client)]
   },
-  [clientEventsNames.messageUpdate]: (data: {message: IMessage}, client: Client) => {
-    return ['messageUpdate', new Message(data.message, client)]
+  [clientEventsNames.messageUpdate]: (data: IMessage, client: Client) => {
+    return ['messageUpdate', new Message(data, client)]
   },
   'member:custom_status_change': (data: { uniqueID: string, custom_status: string }, client: Client) => {
     const presence = client.users.cache.get(data.uniqueID)?.presence
