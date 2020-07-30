@@ -1,4 +1,4 @@
-const Nertivia = require('../dist')
+const Nertivia = require('nertivia.js')
 const client = new Nertivia.Client()
 
 client.on('ready', () => {
