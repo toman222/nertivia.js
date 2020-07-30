@@ -65,6 +65,8 @@
           "varsIgnorePattern": "^_"
         }
       ],
+      "no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-expressions": "error",
       "camelcase": "off",
       "jsdoc/check-examples": 1,
       "jsdoc/check-indentation": 1,
