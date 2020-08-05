@@ -23,8 +23,8 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@discordjs/collection": "^0.1.5",
-    "jsonhtmlfyer": "^0.1.9",
+    "@discordjs/collection": "^0.1.6",
+    "jsonhtmlfyer": "^0.2.0",
     "node-fetch": "^2.6.0",
     "socket.io-client": "^2.3.0",
     "socketio-wildcard": "^2.0.0"
