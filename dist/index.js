@@ -37,5 +37,7 @@ var ServerMember_1 = require("./ServerMember");
 Object.defineProperty(exports, "ServerMember", { enumerable: true, get: function () { return ServerMember_1.default; } });
 var MessageMentions_1 = require("./MessageMentions");
 Object.defineProperty(exports, "MessageMention", { enumerable: true, get: function () { return MessageMentions_1.default; } });
+var collection_1 = require("@discordjs/collection");
+Object.defineProperty(exports, "Collection", { enumerable: true, get: function () { return collection_1.default; } });
 exports.Constants = __importStar(require("./constants"));
 exports.Interfaces = __importStar(require("./Interfaces"));

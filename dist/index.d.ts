@@ -7,5 +7,6 @@ export { default as Presence } from './Presence';
 export { default as Role } from './Role';
 export { default as ServerMember } from './ServerMember';
 export { default as MessageMention } from './MessageMentions';
+export { default as Collection } from '@discordjs/collection';
 export * as Constants from './constants';
 export * as Interfaces from './Interfaces';
